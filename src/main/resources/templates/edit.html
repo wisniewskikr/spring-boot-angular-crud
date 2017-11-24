@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+	<title>Edit</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+	<link rel="stylesheet" th:href="@{/css/jquery-ui-1.10.3/smoothness/jquery-ui-1.10.3.custom.css}"
+		href="../../css/jquery-ui-1.10.3/smoothness/jquery-ui-1.10.3.custom.css" />
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/jquery-1.9.1.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/angular.min.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/jquery-ui-1.10.3.custom.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/common.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/js/templates/edit.js}"></script>	
+</head>
+
+
+<body ng-app="app" >
+
+<div class="page" ng-controller="ctrl">
+	<input type="hidden" ng-model="userId"/>
+	<div id="title" class="title"><h2 id="titleText">Hello World</h2></div>
+	<div id="subtitle" class="subtitle"><h3 id="subtitleText">Page: <b>Edit</b></h3></div>
+	<div class="content">
+		<div class="contentElement">
+			<div class="text">Name *</div>
+			<div class="input"><input type="text" id="name" name="name" ng-model="name"/></div>
+			<div class="description">You can edit name here</div>
+		</div>
+		
+	</div>
+	<div class="buttons">
+		<input type="button" id="update" name="update" value="Update" title="Update user" ng-click="update()" ng-disabled="!name"/>
+		<a href="/list" title="Go back to list of users">Back</a>
+	</div>
+</div>	
+
+</body>
+
+</html>
