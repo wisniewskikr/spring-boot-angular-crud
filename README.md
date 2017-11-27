@@ -1,11 +1,11 @@
-SPRING BOOT + ANGULAR (CRUD + SWAGGER)
-======================================
+SPRING BOOT + THYMELEAF + CRUD (ANGULAR + SWAGGER)
+==================================================
 
 
 DESCRIPTION
 -----------
 
-This is example project of usage Spring Boot + AngularJS.
+This is example project of usage Spring Boot + Thymeleaf + AngularJS.
 This project enables CRUD (Create, Read, Update, Delete) operations on users.
 For CRUD operations embeded Derby DB is used.
 User can also test/work with Rest API by using Swagger UI.

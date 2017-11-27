@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>pl.kwi</groupId>
-	<artifactId>spring-boot-angular-crud</artifactId>	
+	<artifactId>spring-boot-thymeleaf-crud</artifactId>	
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 
