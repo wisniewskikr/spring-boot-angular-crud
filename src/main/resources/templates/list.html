@@ -10,16 +10,14 @@
 	<link rel="stylesheet" th:href="@{/css/jquery-ui-1.10.3/smoothness/jquery-ui-1.10.3.custom.css}"
 		href="../../css/jquery-ui-1.10.3/smoothness/jquery-ui-1.10.3.custom.css" />
 	<script type="text/javascript" th:inline="javascript" th:src="@{/js/jquery-1.9.1.js}"></script>
-	<script type="text/javascript" th:inline="javascript" th:src="@{/js/angular.min.js}"></script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/js/jquery-ui-1.10.3.custom.js}"></script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/js/common.js}"></script>
-	<script type="text/javascript" th:inline="javascript" th:src="@{/js/templates/list.js}"></script>	
 </head>
 
 
-<body ng-app="app">
+<body>
 
-<div class="page" ng-controller="ctrl">
+<div class="page">
 	<div id="title" class="title"><h2>Hello World</h2></div>
 	<div id="subtitle" class="subtitle"><h3>Page: <b>List</b></h3></div>
 	<div class="content">
@@ -39,23 +37,23 @@
 					<a href="/create" id="create">Create</a>
 				</li>
 				<li>
-					<a href="#" id="view" ng-click="view()" ng-class="{disabled: !selected}">View</a>
+					<a href="#" id="view">View</a>
 				</li>
 				<li>
-					<a href="#" id="edit" ng-click="edit()" ng-class="{disabled: !selected}">Edit</a>
+					<a href="#" id="edit">Edit</a>
 				</li>
 				<li>
-					<a href="#" id="delete" ng-click="delete()" ng-class="{disabled: !selected}">Delete</a>
+					<a href="#" id="delete">Delete</a>
 				</li>
 			</ul>		
 		</div>
 		
 		<div class="listItems">
-			<input type="hidden" ng-model="selected"/>
-			<div id="noData" ng-if="users.length==0">There is no data to display</div>
-			<div ng-repeat="user in users">
+			<input type="hidden" id="selected"/>
+			<div id="noData">There is no data to display</div>
+			<!-- div ng-repeat="user in users">
 				<input type="radio" name="user" ng-click="select(user.id)">{{user.name}}</input>
-			</div>
+			</div -->
 		</div>
 		
 		
