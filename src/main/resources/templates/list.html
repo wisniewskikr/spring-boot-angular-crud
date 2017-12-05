@@ -48,12 +48,12 @@
 			</ul>		
 		</div>
 		
-		<div class="listItems">
+		<div class="listItems" th:object="${command}">
 			<input type="hidden" id="selected"/>
-			<div id="noData">There is no data to display</div>
-			<!-- div ng-repeat="user in users">
-				<input type="radio" name="user" ng-click="select(user.id)">{{user.name}}</input>
-			</div -->
+			<div id="noData" th:if="${#lists.isEmpty(command.users)}">There is no data to display</div>
+			<div th:each="user : ${command.users}">
+				<input type="radio" name="user" th:text="${user.name}">User Name</input>
+			</div>
 		</div>
 		
 		

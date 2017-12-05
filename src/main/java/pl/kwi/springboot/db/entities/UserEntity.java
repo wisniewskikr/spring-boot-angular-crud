@@ -14,6 +14,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserEntity {
 	
 	
+	public UserEntity() {}
+	
+	public UserEntity(String name) {
+		this.name = name;
+	}
+	
+	
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
