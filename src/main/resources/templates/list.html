@@ -17,7 +17,7 @@
 
 <body>
 
-<div class="page">
+<div class="page" th:object="${command}">
 	<div id="title" class="title"><h2>Hello World</h2></div>
 	<div id="subtitle" class="subtitle"><h3>Page: <b>List</b></h3></div>
 	<div class="content">
@@ -37,7 +37,7 @@
 					<a href="/create" id="create">Create</a>
 				</li>
 				<li>
-					<a href="#" id="view">View</a>
+					<a href="#" id="view" onClick="sendAction('view')">View</a>
 				</li>
 				<li>
 					<a href="#" id="edit">Edit</a>
@@ -48,11 +48,11 @@
 			</ul>		
 		</div>
 		
-		<div class="listItems" th:object="${command}">
+		<div class="listItems">
 			<input type="hidden" id="selected"/>
 			<div id="noData" th:if="${#lists.isEmpty(command.users)}">There is no data to display</div>
 			<div th:each="user : ${command.users}">
-				<input type="radio" name="user" th:text="${user.name}">User Name</input>
+				<input type="radio" name="user" th:text="${user.name}" th:value="${user.id}" onClick="setSelected(this)">User</input>
 			</div>
 		</div>
 		

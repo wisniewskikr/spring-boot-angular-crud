@@ -21,5 +21,9 @@ public class UserService {
 	public void createUser(UserEntity user) {
 		repository.save(user);
 	}
+	
+	public UserEntity readUser(long id) {
+		return repository.findOne(id);
+	}
 
 }
