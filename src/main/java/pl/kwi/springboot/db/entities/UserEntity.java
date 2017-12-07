@@ -18,9 +18,14 @@ public class UserEntity {
 	
 	public UserEntity(String name) {
 		this.name = name;
+	}	
+	
+	public UserEntity(long id, String name) {
+		this.id = id;
+		this.name = name;
 	}
-	
-	
+
+
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
