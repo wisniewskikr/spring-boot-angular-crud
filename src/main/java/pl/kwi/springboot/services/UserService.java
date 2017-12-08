@@ -22,12 +22,16 @@ public class UserService {
 		repository.save(user);
 	}
 	
-	public UserEntity readUser(long id) {
+	public UserEntity readUser(Long id) {
 		return repository.findOne(id);
 	}
 	
 	public void updateUser(UserEntity user) {
 		repository.save(user);
+	}
+	
+	public void deleteUser(Long id) {
+		repository.delete(id);
 	}
 
 }
