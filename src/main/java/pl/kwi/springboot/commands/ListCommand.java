@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.kwi.springboot.db.entities.UserEntity;
+import pl.kwi.springboot.entities.UserEntity;
 
 public class ListCommand implements Serializable{
 	

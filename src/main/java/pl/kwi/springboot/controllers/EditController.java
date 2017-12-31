@@ -8,25 +8,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pl.kwi.springboot.commands.EditCommand;
-import pl.kwi.springboot.db.entities.UserEntity;
-import pl.kwi.springboot.services.UserService;
+import pl.kwi.springboot.entities.UserEntity;
+import pl.kwi.springboot.services.LdapService;
 
 @Controller
 @RequestMapping(value="/edit")
 public class EditController {
 	
 	@Autowired
-	private UserService userService;
+	private LdapService ldapService;
 	
 	@RequestMapping(value="/{id}")
 	public String displayPage(@PathVariable Long id, @ModelAttribute("command")EditCommand command) {
-		command.setName(userService.readUser(id).getName());
+		command.setName(ldapService.readUser(id).getName());
 		return "edit";
 	}
 	
 	@RequestMapping(value="/handle-button-update", method=RequestMethod.POST)
 	public String handleButtonEdit(@ModelAttribute("command")EditCommand command) {
-		userService.updateUser(new UserEntity(command.getId(), command.getName()));
+		ldapService.updateUser(new UserEntity(command.getId(), command.getName()));
 		return "redirect:/list";
 	}
 
