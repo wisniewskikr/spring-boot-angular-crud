@@ -9,6 +9,8 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import javax.naming.ldap.LdapContext;
@@ -52,7 +54,7 @@ public class LdapService {
 	        ldapContext.createSubcontext(entryDN, entry);  
 	
 	    } catch (NamingException e) {  
-	        System.err.println("save: error adding entry." + e);  
+	        System.err.println("create: error adding entry." + e);  
 	    }
 	    
 	}
@@ -80,14 +82,32 @@ public class LdapService {
 			      user = new UserEntity(uid, name);
 			    }
 		} catch (NamingException e) {
-			System.err.println("load: error reading entry." + e);
+			System.err.println("read: error reading entry." + e);
 		}
 	    
 	    return user;
 	
 	}
 	
-	public void updateUser(UserEntity user) {}
+	public void updateUser(UserEntity user) {	
+		
+		String uid = String.valueOf(user.getId());
+		String entryDN = String.format("uid=%s,ou=People,dc=maxcrc,dc=com", uid); 
+		
+		try {
+
+			ModificationItem[] mods = new ModificationItem[2];
+			mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
+			    new BasicAttribute("cn", user.getName()));
+			mods[1] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
+				    new BasicAttribute("sn", user.getName()));
+			
+			ldapContext.modifyAttributes(entryDN, mods);
+		} catch (NamingException e) {
+			System.err.println("update: error updating entry." + e);
+		}
+		
+	}
 	
 	public UserEntity deleteUser(Long uid){
 		return null;
