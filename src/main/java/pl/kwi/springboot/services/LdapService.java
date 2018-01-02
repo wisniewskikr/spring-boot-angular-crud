@@ -103,14 +103,24 @@ public class LdapService {
 				    new BasicAttribute("sn", user.getName()));
 			
 			ldapContext.modifyAttributes(entryDN, mods);
+			
 		} catch (NamingException e) {
 			System.err.println("update: error updating entry." + e);
 		}
 		
 	}
 	
-	public UserEntity deleteUser(Long uid){
-		return null;
+	public void deleteUser(Long uid){
+		
+		String uidString = String.valueOf(uid);
+		String entryDN = String.format("uid=%s,ou=People,dc=maxcrc,dc=com", uidString); 
+		
+		try {
+			ldapContext.destroySubcontext(entryDN);
+		} catch (NamingException e) {
+			System.err.println("delete: error deleting entry." + e);
+		}
+		
 	}
 	
 	public List<UserEntity> getUserList(){
