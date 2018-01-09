@@ -16,6 +16,7 @@ import javax.naming.directory.SearchResult;
 import javax.naming.ldap.LdapContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import pl.kwi.springboot.entities.UserEntity;
@@ -23,8 +24,8 @@ import pl.kwi.springboot.entities.UserEntity;
 @Service
 public class LdapService {
 	
-	
-	private static final String LDAP_DN = "dc=maxcrc,dc=com";
+	@Value(value = "${ldap.dn}")
+    private String ldapDn;
 	
 	@Autowired
 	private LdapContext ldapContext;
@@ -34,7 +35,7 @@ public class LdapService {
 		String uid = String.valueOf(user.getId());
 		
         // entry's DN 
-		String entryDN = String.format("uid=%s,ou=People,dc=maxcrc,dc=com", uid);  
+		String entryDN = String.format("uid=%s,", uid) + ldapDn;  
 	
 	    // entry's attributes  	
 		Attribute cn = new BasicAttribute("cn", user.getName()); 
@@ -73,7 +74,7 @@ public class LdapService {
 	    sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	    
 	    try {
-			NamingEnumeration<SearchResult> results = ldapContext.search(LDAP_DN, filter, sc);
+			NamingEnumeration<SearchResult> results = ldapContext.search(ldapDn, filter, sc);
 			String name = null;
 			while (results.hasMore()) {
 			      SearchResult sr = results.next();
@@ -92,7 +93,7 @@ public class LdapService {
 	public void updateUser(UserEntity user) {	
 		
 		String uid = String.valueOf(user.getId());
-		String entryDN = String.format("uid=%s,ou=People,dc=maxcrc,dc=com", uid); 
+		String entryDN = String.format("uid=%s,", uid) + ldapDn; 
 		
 		try {
 
@@ -113,7 +114,7 @@ public class LdapService {
 	public void deleteUser(Long uid){
 		
 		String uidString = String.valueOf(uid);
-		String entryDN = String.format("uid=%s,ou=People,dc=maxcrc,dc=com", uidString); 
+		String entryDN = String.format("uid=%s,", uidString) + ldapDn; 
 		
 		try {
 			ldapContext.destroySubcontext(entryDN);
@@ -139,7 +140,7 @@ public class LdapService {
 	    sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	    
 	    try {
-			NamingEnumeration<SearchResult> results = ldapContext.search(LDAP_DN, filter, sc);
+			NamingEnumeration<SearchResult> results = ldapContext.search(ldapDn, filter, sc);
 			while (results.hasMore()) {
 			      SearchResult sr = results.next();
 			      Attributes attrs = sr.getAttributes();
