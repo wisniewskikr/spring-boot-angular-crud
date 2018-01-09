@@ -127,7 +127,7 @@ public class LdapService {
 		String cn;
 		
 		//filter
-		String filter = "(cn=*)";
+		String filter = "(&(cn=*)(objectClass=user))";
 		
 		// search controls
 		SearchControls sc = new SearchControls();
