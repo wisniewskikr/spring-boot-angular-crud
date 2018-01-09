@@ -24,7 +24,7 @@ public class CreaterController {
 	
 	@RequestMapping(value="/handle-button-create", method=RequestMethod.POST)
 	public String handleButtonCreate(@ModelAttribute("command")CreateCommand command) {
-		ldapService.createUser(new UserEntity(ldapService.generateUid(), command.getName()));
+		ldapService.createUser(new UserEntity(command.getName(), command.getName()));
 		return "redirect:/list";
 	}
 

@@ -17,15 +17,15 @@ public class DeleteController {
 	@Autowired
 	private LdapService ldapService;
 	
-	@RequestMapping(value="/{id}")
-	public String displayPage(@PathVariable Long id, @ModelAttribute("command")DeleteCommand command) {
-		command.setName(ldapService.readUser(id).getName());
+	@RequestMapping(value="/{cn}")
+	public String displayPage(@PathVariable String cn, @ModelAttribute("command")DeleteCommand command) {
+		command.setName(ldapService.readUser(cn).getName());
 		return "delete";
 	}
 	
 	@RequestMapping(value="/handle-button-delete", method=RequestMethod.POST)
 	public String handleButtonEdit(@ModelAttribute("command")DeleteCommand command) {
-		ldapService.deleteUser(command.getId());
+		ldapService.deleteUser(command.getCn());
 		return "redirect:/list";
 	}
 

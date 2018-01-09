@@ -15,9 +15,9 @@ public class ViewController {
 	@Autowired
 	private LdapService ldapService;
 	
-	@RequestMapping(value="/{id}")
-	public String displayPage(@PathVariable Long id, @ModelAttribute("command")ViewCommand command) {
-		command.setName(ldapService.readUser(id).getName());
+	@RequestMapping(value="/{cn}")
+	public String displayPage(@PathVariable String cn, @ModelAttribute("command")ViewCommand command) {
+		command.setName(ldapService.readUser(cn).getName());
 		return "view";
 	}
 

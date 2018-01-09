@@ -32,14 +32,12 @@ public class LdapService {
 	
 	public void createUser(UserEntity user) {
 		
-		String uid = String.valueOf(user.getId());
-		
         // entry's DN 
-		String entryDN = String.format("uid=%s,", uid) + ldapDn;  
+		String entryDN = String.format("cn=%s,", user.getCn()) + ldapDn;  
 	
 	    // entry's attributes  	
-		Attribute cn = new BasicAttribute("cn", user.getName()); 
-		Attribute sn = new BasicAttribute("sn", user.getName());  
+		Attribute cn = new BasicAttribute("cn", user.getCn()); 
+		Attribute name = new BasicAttribute("name", user.getName());  
 	    Attribute oc = new BasicAttribute("objectClass");  
 	    oc.add("top");  
 	    oc.add("person");  
@@ -50,7 +48,7 @@ public class LdapService {
 
 	    	BasicAttributes entry = new BasicAttributes();  
 	    	entry.put(cn);
-	    	entry.put(sn);  
+	    	entry.put(name);  
 	        entry.put(oc);  
 	        ldapContext.createSubcontext(entryDN, entry);  
 	
@@ -60,16 +58,16 @@ public class LdapService {
 	    
 	}
 	
-	public UserEntity readUser(Long uid){
+	public UserEntity readUser(String cn){
 		
 		UserEntity user = null;
 		
 		//filter
-		String filter = String.format("(uid=%s)", String.valueOf(uid));
+		String filter = String.format("(cn=%s)", cn);
 		
 		// search controls
 		SearchControls sc = new SearchControls();
-	    String[] attributeFilter = { "cn" };
+	    String[] attributeFilter = { "name" };
 	    sc.setReturningAttributes(attributeFilter);
 	    sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	    
@@ -79,8 +77,8 @@ public class LdapService {
 			while (results.hasMore()) {
 			      SearchResult sr = results.next();
 			      Attributes attrs = sr.getAttributes();
-			      name = (String)attrs.get("cn").get();
-			      user = new UserEntity(uid, name);
+			      name = (String)attrs.get("name").get();
+			      user = new UserEntity(cn, name);
 			    }
 		} catch (NamingException e) {
 			System.err.println("read: error reading entry." + e);
@@ -92,16 +90,15 @@ public class LdapService {
 	
 	public void updateUser(UserEntity user) {	
 		
-		String uid = String.valueOf(user.getId());
-		String entryDN = String.format("uid=%s,", uid) + ldapDn; 
+		String entryDN = String.format("cn=%s,", user.getCn()) + ldapDn; 
 		
 		try {
 
 			ModificationItem[] mods = new ModificationItem[2];
 			mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
-			    new BasicAttribute("cn", user.getName()));
+			    new BasicAttribute("cn", user.getCn()));
 			mods[1] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
-				    new BasicAttribute("sn", user.getName()));
+				    new BasicAttribute("name", user.getName()));
 			
 			ldapContext.modifyAttributes(entryDN, mods);
 			
@@ -111,10 +108,9 @@ public class LdapService {
 		
 	}
 	
-	public void deleteUser(Long uid){
+	public void deleteUser(String cn){
 		
-		String uidString = String.valueOf(uid);
-		String entryDN = String.format("uid=%s,", uidString) + ldapDn; 
+		String entryDN = String.format("cn=%s,", cn) + ldapDn; 
 		
 		try {
 			ldapContext.destroySubcontext(entryDN);
@@ -128,14 +124,14 @@ public class LdapService {
 		
 		List<UserEntity>  result = new ArrayList<UserEntity>();
 		String name;
-		Long uid;
+		String cn;
 		
 		//filter
-		String filter = "(uid=*)";
+		String filter = "(cn=*)";
 		
 		// search controls
 		SearchControls sc = new SearchControls();
-	    String[] attributeFilter = { "uid", "cn" };
+	    String[] attributeFilter = { "cn", "name" };
 	    sc.setReturningAttributes(attributeFilter);
 	    sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	    
@@ -144,9 +140,9 @@ public class LdapService {
 			while (results.hasMore()) {
 			      SearchResult sr = results.next();
 			      Attributes attrs = sr.getAttributes();
-			      uid = Long.valueOf((String)attrs.get("uid").get());
-			      name = (String)attrs.get("cn").get();			      
-			      result.add(new UserEntity(uid, name));
+			      cn = (String)attrs.get("cn").get();
+			      name = (String)attrs.get("name").get();			      
+			      result.add(new UserEntity(cn, name));
 			    }
 		} catch (NamingException e) {
 			System.err.println("load: error reading entry." + e);
@@ -154,17 +150,6 @@ public class LdapService {
 	    
 	    return result;
 	
-	}
-	
-	public Long generateUid() {
-		List<UserEntity> users = getUserList();
-		if (users.isEmpty()) {
-			return 1L;
-		}
-		
-		UserEntity user = users.get(users.size() - 1);
-		long currentId = user.getId();
-		return ++currentId;
 	}
 
 }

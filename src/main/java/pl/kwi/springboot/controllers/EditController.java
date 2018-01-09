@@ -18,15 +18,15 @@ public class EditController {
 	@Autowired
 	private LdapService ldapService;
 	
-	@RequestMapping(value="/{id}")
-	public String displayPage(@PathVariable Long id, @ModelAttribute("command")EditCommand command) {
-		command.setName(ldapService.readUser(id).getName());
+	@RequestMapping(value="/{cn}")
+	public String displayPage(@PathVariable String cn, @ModelAttribute("command")EditCommand command) {
+		command.setName(ldapService.readUser(cn).getName());
 		return "edit";
 	}
 	
 	@RequestMapping(value="/handle-button-update", method=RequestMethod.POST)
 	public String handleButtonEdit(@ModelAttribute("command")EditCommand command) {
-		ldapService.updateUser(new UserEntity(command.getId(), command.getName()));
+		ldapService.updateUser(new UserEntity(command.getCn(), command.getName()));
 		return "redirect:/list";
 	}
 
