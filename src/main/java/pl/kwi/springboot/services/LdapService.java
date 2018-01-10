@@ -152,5 +152,22 @@ public class LdapService {
 	    return result;
 	
 	}
+	
+	public String generateCn() {
+		List<UserEntity> users = getUserList();
+		if (users.isEmpty()) {
+			return "testuser1";
+		}
+		
+		UserEntity user = users.get(users.size() - 1);
+		if(!user.getCn().contains("testuser")) {
+			return "testuser1";
+		}
+		
+		String currentCn = user.getCn();
+		int index = Integer.valueOf(currentCn.substring("testuser".length(), currentCn.length()));
+		index++;
+		return "testuser" + index;
+	}
 
 }
