@@ -12,7 +12,7 @@ public class DeleteCommand implements Serializable{
 	public String getCn() {
 		return cn;
 	}
-	public void setId(String cn) {
+	public void setCn(String cn) {
 		this.cn = cn;
 	}
 	
