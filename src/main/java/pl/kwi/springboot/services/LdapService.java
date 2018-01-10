@@ -37,18 +37,21 @@ public class LdapService {
 	
 	    // entry's attributes  	
 		Attribute cn = new BasicAttribute("cn", user.getCn()); 
-		Attribute name = new BasicAttribute("name", user.getName());  
+		Attribute name = new BasicAttribute("name", user.getName()); 
+		Attribute givenName = new BasicAttribute("givenName", user.getName());
 	    Attribute oc = new BasicAttribute("objectClass");  
 	    oc.add("top");  
 	    oc.add("person");  
-	    oc.add("organizationalPerson");  
+	    oc.add("organizationalPerson"); 
+	    oc.add("user"); 
 	    oc.add("inetOrgPerson");  
 	
 	    try {  
 
 	    	BasicAttributes entry = new BasicAttributes();  
 	    	entry.put(cn);
-	    	entry.put(name);  
+	    	entry.put(name); 
+	    	entry.put(givenName);
 	        entry.put(oc);  
 	        ldapContext.createSubcontext(entryDN, entry);  
 	
@@ -67,7 +70,7 @@ public class LdapService {
 		
 		// search controls
 		SearchControls sc = new SearchControls();
-	    String[] attributeFilter = { "name" };
+	    String[] attributeFilter = { "givenName" };
 	    sc.setReturningAttributes(attributeFilter);
 	    sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	    
@@ -77,7 +80,7 @@ public class LdapService {
 			while (results.hasMore()) {
 			      SearchResult sr = results.next();
 			      Attributes attrs = sr.getAttributes();
-			      name = (String)attrs.get("name").get();
+			      name = (String)attrs.get("givenName").get();
 			      user = new UserEntity(cn, name);
 			    }
 		} catch (NamingException e) {
@@ -94,11 +97,9 @@ public class LdapService {
 		
 		try {
 
-			ModificationItem[] mods = new ModificationItem[2];
+			ModificationItem[] mods = new ModificationItem[1];
 			mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
-			    new BasicAttribute("cn", user.getCn()));
-			mods[1] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
-				    new BasicAttribute("name", user.getName()));
+				    new BasicAttribute("givenName", user.getName()));
 			
 			ldapContext.modifyAttributes(entryDN, mods);
 			
@@ -131,7 +132,7 @@ public class LdapService {
 		
 		// search controls
 		SearchControls sc = new SearchControls();
-	    String[] attributeFilter = { "cn", "name" };
+	    String[] attributeFilter = { "cn", "givenName" };
 	    sc.setReturningAttributes(attributeFilter);
 	    sc.setSearchScope(SearchControls.SUBTREE_SCOPE);
 	    
@@ -141,7 +142,7 @@ public class LdapService {
 			      SearchResult sr = results.next();
 			      Attributes attrs = sr.getAttributes();
 			      cn = (String)attrs.get("cn").get();
-			      name = (String)attrs.get("name").get();			      
+			      name = (String)attrs.get("givenName").get();			      
 			      result.add(new UserEntity(cn, name));
 			    }
 		} catch (NamingException e) {
