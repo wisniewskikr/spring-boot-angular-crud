@@ -30,7 +30,7 @@ public class LdapService {
 	@Autowired
 	private LdapContext ldapContext;
 	
-	public void createUser(UserEntity user) {
+	public void createUser(UserEntity user) {	
 		
         // entry's DN 
 		String entryDN = String.format("cn=%s,", user.getCn()) + ldapDn;  
@@ -142,8 +142,8 @@ public class LdapService {
 			      SearchResult sr = results.next();
 			      Attributes attrs = sr.getAttributes();
 			      cn = (String)attrs.get("cn").get();
-			      name = (String)attrs.get("givenName").get();			      
-			      result.add(new UserEntity(cn, name));
+//			      name = (String)attrs.get("givenName").get();			      
+			      result.add(new UserEntity(cn, cn));
 			    }
 		} catch (NamingException e) {
 			System.err.println("load: error reading entry." + e);

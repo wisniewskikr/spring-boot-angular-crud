@@ -1,5 +1,7 @@
 package pl.kwi.springboot.configs;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -24,10 +26,18 @@ public class ApplicationConfig {
 	@Value(value = "${ldap.password}")
     private String ldapPassword;
 	
+	@Value(value = "${ldap.trustStore.path}")
+	private String ldapTrustStorePath;
+	
+	@Value(value = "${ldap.trustStore.password}")
+	private String ldapTrustStorePassword;
+	
 	@Bean
-	public LdapContext ldapContext() {
+	public LdapContext ldapContext() {	
 		
 		LdapContext ldapContext = null;
+		
+		handleTrustStore();
 		
 		try {
 			
@@ -46,6 +56,21 @@ public class ApplicationConfig {
 		}
 		
 		return ldapContext;
+		
+	}
+	
+	private void handleTrustStore() {
+		
+		try {
+			
+			URL url = this.getClass().getClassLoader().getResource(ldapTrustStorePath);
+			String path = url.toURI().getPath();
+			System.setProperty("javax.net.ssl.trustStore", path);
+			System.setProperty("javax.net.ssl.trustStorePassword", ldapTrustStorePassword);
+			
+		} catch (URISyntaxException e1) {
+			System.err.println(e1.getMessage());
+		}
 		
 	}
 
