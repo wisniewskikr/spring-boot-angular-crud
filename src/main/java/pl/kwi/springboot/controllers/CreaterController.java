@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pl.kwi.springboot.commands.CreateCommand;
-import pl.kwi.springboot.db.entities.UserEntity;
-import pl.kwi.springboot.services.UserService;
+import pl.kwi.springboot.entities.UserEntity;
+import pl.kwi.springboot.services.LdapService;
 
 @Controller
 @RequestMapping(value="/create")
 public class CreaterController {
 	
 	@Autowired
-	private UserService userService;
+	private LdapService ldapService;
 	
 	@RequestMapping
 	public String displayPage() {
@@ -24,7 +24,8 @@ public class CreaterController {
 	
 	@RequestMapping(value="/handle-button-create", method=RequestMethod.POST)
 	public String handleButtonCreate(@ModelAttribute("command")CreateCommand command) {
-		userService.createUser(new UserEntity(command.getName()));
+		String cn = ldapService.generateCn();
+		ldapService.createUser(new UserEntity(cn, command.getName()));
 		return "redirect:/list";
 	}
 

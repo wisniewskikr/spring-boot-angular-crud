@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.kwi.springboot.commands.ViewCommand;
-import pl.kwi.springboot.services.UserService;
+import pl.kwi.springboot.services.LdapService;
 
 @Controller
 @RequestMapping(value="/view")
 public class ViewController {
 	
 	@Autowired
-	private UserService userService;
+	private LdapService ldapService;
 	
-	@RequestMapping(value="/{id}")
-	public String displayPage(@PathVariable Long id, @ModelAttribute("command")ViewCommand command) {
-		command.setName(userService.readUser(id).getName());
+	@RequestMapping(value="/{cn}")
+	public String displayPage(@PathVariable String cn, @ModelAttribute("command")ViewCommand command) {
+		command.setName(ldapService.readUser(cn).getName());
 		return "view";
 	}
 

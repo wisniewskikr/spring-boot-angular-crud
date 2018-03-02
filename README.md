@@ -1,13 +1,16 @@
-SPRING BOOT + THYMELEAF + CRUD
-==============================
+SPRING BOOT + THYMELEAF + CRUD + ROCHE ADLDS
+============================================
 
 
 DESCRIPTION
 -----------
 
-This is example project of usage Spring Boot + Thymeleaf.
+This is example project of usage Spring Boot + Thymeleaf + CRUD + ROCHE ADLDS (instance of LDAP).
 This project enables CRUD (Create, Read, Update, Delete) operations on users.
-For CRUD operations embeded Derby DB is used.
+For CRUD operations LDAP is used.
+
+LDAP tools:
+- Apache Directory Studio.
   
 
 USAGE

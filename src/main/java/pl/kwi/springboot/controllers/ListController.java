@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.kwi.springboot.commands.ListCommand;
-import pl.kwi.springboot.services.UserService;
+import pl.kwi.springboot.services.LdapService;
 
 
 @Controller
@@ -15,11 +15,11 @@ import pl.kwi.springboot.services.UserService;
 public class ListController {
 	
 	@Autowired
-	private UserService userService;
+	private LdapService ldapService;
 
 	@RequestMapping
 	public String displayPage(@ModelAttribute("command")ListCommand command) {
-		command.setUsers(userService.getUserList());
+		command.setUsers(ldapService.getUserList());
 		return "list";
 	}
 

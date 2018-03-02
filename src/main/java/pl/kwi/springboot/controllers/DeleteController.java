@@ -8,24 +8,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pl.kwi.springboot.commands.DeleteCommand;
-import pl.kwi.springboot.services.UserService;
+import pl.kwi.springboot.services.LdapService;
 
 @Controller
 @RequestMapping(value="/delete")
 public class DeleteController {
 	
 	@Autowired
-	private UserService userService;
+	private LdapService ldapService;
 	
-	@RequestMapping(value="/{id}")
-	public String displayPage(@PathVariable Long id, @ModelAttribute("command")DeleteCommand command) {
-		command.setName(userService.readUser(id).getName());
+	@RequestMapping(value="/{cn}")
+	public String displayPage(@PathVariable String cn, @ModelAttribute("command")DeleteCommand command) {
+		command.setName(ldapService.readUser(cn).getName());
 		return "delete";
 	}
 	
 	@RequestMapping(value="/handle-button-delete", method=RequestMethod.POST)
 	public String handleButtonEdit(@ModelAttribute("command")DeleteCommand command) {
-		userService.deleteUser(command.getId());
+		ldapService.deleteUser(command.getCn());
 		return "redirect:/list";
 	}
 

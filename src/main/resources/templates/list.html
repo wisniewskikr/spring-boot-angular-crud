@@ -52,7 +52,7 @@
 			<input type="hidden" id="selected"/>
 			<div id="noData" th:if="${#lists.isEmpty(command.users)}">There is no data to display</div>
 			<div th:each="user : ${command.users}">
-				<input type="radio" name="user" th:text="${user.name}" th:value="${user.id}" onClick="setSelected(this)">User</input>
+				<input type="radio" name="user" th:text="${user.name}" th:value="${user.cn}" onClick="setSelected(this)">User</input>
 			</div>
 		</div>
 		
